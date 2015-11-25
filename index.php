@@ -32,6 +32,9 @@ POST index.php?action=save_module_settings (kun endrede felter)
 $tpl = new tpl('edit_session');
 $tpl->set('foo', 'bar');
 
+// Are lager
+// linjeskift :-)
+
 
 // Test!!
 
