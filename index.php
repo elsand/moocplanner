@@ -33,6 +33,6 @@ $tpl = new tpl('edit_session');
 $tpl->set('foo', 'bar');
 
 
-
+// Test!!
 
 echo $tpl->render();
