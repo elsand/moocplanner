@@ -37,7 +37,7 @@ function action_default() {
 	$tpl = new tpl('main');
 	$tpl->set('year', $year);
 	$tpl->set('month', $month);
-	$tpl->set('course_data', get_course_data(LOADED_COURSE_ID));
+	$tpl->set('course_data', get_course_enrollment(LOADED_COURSE_ID));
 	$tpl->set('active_modules', get_active_modules(LOADED_COURSE_ID));
 	$tpl->set('entries', get_sessions_for_month(LOADED_COURSE_ID, $year, $month));
 	$tpl->set('not_fully_booked', get_not_fully_booked_modules(LOADED_COURSE_ID));

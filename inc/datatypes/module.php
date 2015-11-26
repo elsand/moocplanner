@@ -22,4 +22,9 @@ class Module {
 	/** @var int How many hours are booked on this module (cannot exceed $estimated_hours) */
 	public $booked_hours;
 
+	/** @var  bool Whether there are previously booked hours on this module and completed is false*/
+	public $is_active;
+
+	/** @var Session[] The booked / spent sessions on this module */
+	public $sessions;
 }

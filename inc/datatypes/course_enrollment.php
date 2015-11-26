@@ -18,4 +18,7 @@ class CourseEnrollment {
 
 	/** @var DateTime When did the user enroll on this course */
 	public $enrolled_date;
+
+	/** @var Module[] List of modules in this enrollement */
+	public $modules;
 }

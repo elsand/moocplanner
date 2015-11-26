@@ -17,7 +17,7 @@ class Session {
 	public $duration_hours;
 
 	/** @var bool Is this a repeatable session? */
-	public $repeatable;
+	public $is_repeating;
 
 	/** @var int Repeat every X weeks */
 	public $repeat_interval_weeks;
