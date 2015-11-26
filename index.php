@@ -4,6 +4,7 @@ require "inc/settings.php";
 require "inc/utils.php";
 require "inc/db.php";
 require "inc/tpl.php";
+require "inc/datatypes.php";
 
 $db = get_database_connection();
 
@@ -21,8 +22,12 @@ else {
 }
 
 function action_default() {
-	if (isset($_GET['showmonth']) && preg_match('/^2\d{3}\-[01][1-9]$/', $_GET['showmonth'])) {
+	if (isset($_GET['showmonth']) && preg_match('/^2\d{3}\-[01][0-9]$/', $_GET['showmonth'])) {
 		list($year, $month) = explode('-', $_GET['showmonth']);
+		if ($month < 1 || $month > 12) {
+			$year = date('Y');
+			$month = date('m');
+		}
 	}
 	else {
 		$year = date('Y');

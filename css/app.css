@@ -1,0 +1,56 @@
+.progress > .progress-meter-text {
+	display: block;
+	text-align: center;
+	margin-top: -17px;
+	font-size: 74%;
+}
+
+#calendar table {
+	width: 100%;
+}
+
+#calendar th .button {
+	margin: 0;
+}
+
+#calendar .week-header {
+	width: 14%;
+	text-align: center;
+}
+
+#calendar .week-header.week-num {
+	width: 2%;
+}
+
+#calendar td {
+	border: 1px solid #ddd;
+}
+
+#calendar td:hover {
+	background-color: #FFEA95;
+	cursor: pointer;
+}
+
+#calendar td.prev-month {
+	background-color: transparent !important;
+	cursor: auto !important;
+}
+
+#calendar td:hover span.date {
+	color: #333;
+}
+#calendar td.is-today {
+	background-color: #96c4ff;
+}
+#calendar td.is-today span.date {
+	color: #333;
+}
+
+#calendar td span.date {
+	display: block;
+	min-height: 75px;
+	text-align: center;
+	padding-top: 18px;
+	font-size: 28px;
+	color: #ccc;
+}
