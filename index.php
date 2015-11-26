@@ -6,8 +6,6 @@ require "inc/db.php";
 require "inc/tpl.php";
 require "inc/datatypes.php";
 
-$db = get_database_connection();
-
 if (!empty($_GET['action'])) {
 	$action = 'action_' . $_GET['action'];
 	if (function_exists($action)) {
@@ -67,7 +65,10 @@ function action_toggle_view_completed() {
 }
 
 function action_module_settings() {
-
+	$tpl = new tpl('module_settings');
+	$tpl->set('modules', get_modules_for_user(LOADED_COURSE_ID));
+	$tpl->set('standard_module_hours', get_user_standard_module_hours(LOADED_COURSE_ID));
+	echo $tpl->render();
 }
 
 function action_save_module_settings() {

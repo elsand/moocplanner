@@ -9,10 +9,10 @@
 			<dt>Kurs:</dt>
 			<dd><?= $course_data->name ?> (<?= $course_data->modules_count ?> moduler, <?= $course_data->exam_count ?> eksamener)</dd>
 
-			<dt>Påmeldt:</dt>
+			<dt>Pï¿½meldt:</dt>
 			<dd><?= fdate(DATE_FORMAT_LONG_DATE, $course_data->enrolled_date) ?></dd>
 
-			<dt>Fullførte moduler:</dt>
+			<dt>Fullfï¿½rte moduler:</dt>
 			<dd>
 				<div class="progress" role="progressbar">
 					<span class="progress-meter success" style="width: <?=
@@ -25,11 +25,11 @@
 		</dl>
 	</div>
 	<div class="large-8 columns">
-	<h4>Påbegynte moduler pr. <?= fdate(DATE_FORMAT_SHORT_DATE) ?> </h4>
+	<h4>Pï¿½begynte moduler pr. <?= fdate(DATE_FORMAT_SHORT_DATE) ?> </h4>
 	<?php if (!count($active_modules)): ?>
-		<em>Ingen påbegynte moduler</em>
-	<? else: ?>
+		<em>Ingen pï¿½begynte moduler</em>
+	<?php else: ?>
 
-	<? endif ?>
+	<?php endif ?>
 	</div>
 </div>

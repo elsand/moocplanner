@@ -49,7 +49,7 @@ function get_course_enrollment($course_id) {
 		// Get module count, and how many are completed
 		$c->modules_count = $db->query('SELECT COUNT(*) FROM module WHERE course_id = ' . $c->id . ' AND is_exam = 0')->fetchColumn();
 		$c->exam_count = $db->query('SELECT COUNT(*) FROM module WHERE course_id = ' . $c->id . ' AND is_exam = 1')->fetchColumn();
-		$c->completed_modules_count = $db->query('SELECT COUNT(*) FROM user_module WHERE module_id IN (SELECT id FROM module WHERE course_id = ' . $c->id . ') AND completed = 1')->fetchColumn();
+		$c->completed_modules_count = $db->query('SELECT COUNT(*) FROM user_module WHERE user_id = ' . CURRENT_USER_ID . ' AND module_id IN (SELECT id FROM module WHERE course_id = ' . $c->id . ') AND completed = 1')->fetchColumn();
 
 		// Populate modules
 		$c->modules = get_modules_for_user($c->id);
@@ -263,4 +263,13 @@ function get_module_populated_with_sessions(Module $m) {
 
 	$m->sessions = $sessions;
 	return $m;
+}
+
+function get_user_standard_module_hours($course_id) {
+	$db = get_database_connection();
+	$sth = $db->prepare('SELECT standard_module_hours FROM user_course WHERE user_id = ? AND course_id = ?');
+	if (!$sth->execute([CURRENT_USER_ID, $course_id])) {
+		throw new RuntimeException('Invalid course id');
+	}
+	return $sth->fetchColumn();
 }

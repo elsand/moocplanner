@@ -36,14 +36,14 @@
 					<th class="week-header">Onsdag</th>
 					<th class="week-header">Torsdag</th>
 					<th class="week-header">Fredag</th>
-					<th class="week-header">Lørdag</th>
-					<th class="week-header">Søndag</th>
+					<th class="week-header">LÃ¸rdag</th>
+					<th class="week-header">SÃ¸ndag</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php
 
-				$days_per_row = 8; // dayboxes per row (incluing week num)
+				$days_per_row = 8; // dayboxes per row (including week num)
 				$days_per_column = 6; // dayboxes per column. Some months span 6 week distinct weeks
 
 				$cell_count = $days_per_row * $days_per_column;
@@ -54,7 +54,7 @@
 				$first_row = true;
 				for ($i=0; $i<$cell_count; $i++) {
 
-					$d = $i - ($i / $days_per_row % $days_per_column) - $skip_days;
+					$date = $i - ($i / $days_per_row % $days_per_column) - $skip_days;
 
 					if ($i && $i % $days_per_row) {
 						if ($skip_days < $day_of_first-1) {
@@ -63,23 +63,23 @@
 							continue;
 						}
 
-						if ($d <= $days_in_month) {
-							$ymd = sprintf('%02d-%02d-%d', $year, $month, $d);
+						if ($date <= $days_in_month) {
+							$ymd = sprintf('%02d-%02d-%d', $year, $month, $date);
 							$class = '';//'date-'. $ymd;
 							if ($ymd == date('Y-m-d')) {
 								$class .= " is-today";
 							}
 							echo '<td class="' . $class . '">';
-							echo '<span class="date">' . $d . '</span>';
+							echo '<span class="date">' . $date . '</span>';
 
-							display_entries_for_date($d, $month, $year, $entries);
+							display_entries_for_date($date, $month, $year, $entries);
 
 							echo '</td>';
 						}
 					}
-					else if ($d < $days_in_month ) {
+					else if ($date < $days_in_month ) {
 						// weeknumber
-						$wn = strftime('%V', mktime(0, 0, 0, $month, $d + 1, $year));
+						$wn = strftime('%V', mktime(0, 0, 0, $month, $date + 1, $year));
 						if ($first_row) {
 							$first_row = false;
 						}
@@ -116,6 +116,7 @@ function display_entries_for_date($day, $month, $year, $entries) {
 
 function render_calendar_entry(Session $session) {
 	echo '<em>' . $session->module->name . '</em>';
+	echo $session->duration_hours;
 }
 
 function get_month_link($month, $year, $add) {
