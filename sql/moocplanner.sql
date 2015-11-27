@@ -7,7 +7,7 @@
 #
 # Host: debian-vm (MySQL 5.6.23-1~dotdeb.3-log)
 # Database: moocplanner
-# Generation Time: 2015-11-26 12:59:37 +0000
+# Generation Time: 2015-11-27 12:32:38 +0000
 # ************************************************************
 
 
@@ -53,7 +53,7 @@ CREATE TABLE `module` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `course_id` int(11) unsigned NOT NULL,
   `is_exam` tinyint(1) NOT NULL DEFAULT '0',
-  `name` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(100) NOT NULL DEFAULT '',
   `module_hours` int(11) DEFAULT NULL,
   `module_order` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -66,21 +66,21 @@ LOCK TABLES `module` WRITE;
 
 INSERT INTO `module` (`id`, `course_id`, `is_exam`, `name`, `module_hours`, `module_order`)
 VALUES
-	(1,1,0,'Modul 1',NULL,1),
-	(4,1,0,'Modul 2',NULL,2),
-	(5,1,0,'Modul 3',NULL,3),
-	(6,1,0,'Modul 4',NULL,4),
-	(7,1,0,'Modul 5',NULL,5),
-	(8,1,0,'Modul 6',NULL,6),
-	(9,1,0,'Modul 7',NULL,7),
-	(10,1,0,'Modul 8',NULL,8),
-	(11,1,0,'Modul 9',NULL,9),
-	(12,1,0,'Modul 10',NULL,10),
-	(13,1,0,'Modul 11',NULL,11),
-	(14,1,0,'Modul 12',NULL,12),
-	(15,1,0,'Modul 13',NULL,13),
-	(16,1,0,'Modul 14',NULL,14),
-	(17,1,0,'Modul 15',NULL,15);
+	(1,1,0,'Introduksjon',NULL,1),
+	(4,1,0,'Pedagogisk bruk av LMS',NULL,2),
+	(5,1,0,'Skjermopptak',20,3),
+	(6,1,0,'Web 2.0 del 1 - Samskriving og blogging',NULL,4),
+	(7,1,0,'Digital vurdering',NULL,5),
+	(8,1,0,'Læringsteorier',NULL,6),
+	(9,1,0,'Åpent innhold',NULL,7),
+	(10,1,0,'Formativ vurdering med digitale tester',NULL,8),
+	(11,1,0,'Pedagogisk bruk av video (snarfilm)',NULL,9),
+	(12,1,0,'Web 2.0 del 2 - Tenk nytt om undervisning og læring',NULL,10),
+	(13,1,0,'Læringsdesign',NULL,11),
+	(14,1,0,'Opphavsrett',NULL,12),
+	(15,1,0,'Summativ vurdering med digitale tester',NULL,13),
+	(16,1,0,'Omvendt klasserom',NULL,14),
+	(17,1,0,'PLN og PLE (personlig læringsnettverk/læringsmiljø)',NULL,15);
 
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -106,6 +106,29 @@ CREATE TABLE `session` (
   CONSTRAINT `session_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `session` WRITE;
+/*!40000 ALTER TABLE `session` DISABLE KEYS */;
+
+INSERT INTO `session` (`id`, `user_id`, `module_id`, `start_date`, `hours`, `repeating`, `repeat_days`)
+VALUES
+	(1,1,1,'2015-12-01',4,1,'4'),
+	(5,1,4,'2015-10-10',5,NULL,NULL),
+	(6,1,14,'2015-12-10',5,NULL,NULL),
+	(7,1,5,'2015-12-11',5,2,'1,3'),
+	(8,1,6,'2015-12-13',5,1,'2,4'),
+	(9,1,7,'2015-12-14',4,NULL,NULL),
+	(10,1,8,'2015-12-15',4,NULL,NULL),
+	(11,1,9,'2015-12-16',4,NULL,NULL),
+	(12,1,10,'2015-12-17',4,NULL,NULL),
+	(13,1,11,'2015-12-18',4,NULL,NULL),
+	(15,1,12,'2015-12-19',4,NULL,NULL),
+	(16,1,13,'2015-12-20',4,NULL,NULL),
+	(17,1,15,'2015-12-21',4,NULL,NULL),
+	(18,1,16,'2015-12-22',4,NULL,NULL),
+	(19,1,17,'2015-12-23',4,NULL,NULL);
+
+/*!40000 ALTER TABLE `session` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table user
@@ -176,7 +199,7 @@ LOCK TABLES `user_module` WRITE;
 
 INSERT INTO `user_module` (`user_id`, `module_id`, `module_hours`, `completed`)
 VALUES
-	(1,1,NULL,1);
+	(1,1,20,1);
 
 /*!40000 ALTER TABLE `user_module` ENABLE KEYS */;
 UNLOCK TABLES;

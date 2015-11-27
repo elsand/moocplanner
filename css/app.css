@@ -43,8 +43,7 @@
 }
 
 #calendar td:hover {
-	background-color: #FFEA95;
-	cursor: pointer;
+	background-color: #fffec9;
 }
 
 #calendar td.prev-month {
@@ -69,8 +68,15 @@
 	font-size: 28px;
 	color: #ccc;
 	z-index: 0;
-	top: 4px;
+	top: -4px;
 	left: 4px;
+}
+
+#calendar td span.date a {
+	color: inherit;
+}
+#calendar td span.date a:hover {
+	color: #2199e8;
 }
 
 #calendar .session {
@@ -80,6 +86,11 @@
 	padding: 4px;
 	width: 100%;
 	position: relative;
+	cursor: pointer;
+}
+
+#calendar .session:first-of-type {
+	margin-top: 35px;
 }
 
 #calendar .module-order {
@@ -102,6 +113,11 @@
 
 #calendar .session-duration {
 	float: right;
+}
+
+#calendar .session-repeated {
+	font-size: 70%;
+	opacity: 0.6;
 }
 
 #calendar .progress {
