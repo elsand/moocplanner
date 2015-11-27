@@ -12,24 +12,26 @@ $('body')
 		$(this).parent().remove();
 	})
 	.on('click', '#popup #repeatable', function() {
+
 		if ($(this).is(':checked')) {
-			$('#repeatable-container').css('visibility: visible');
+			$('#repeatable-container').css('visibility', 'visible');
 		}
 		else {
-			$('#repeatable-container').css('visibility: hidden');
+			$('#repeatable-container').css('visibility', 'hidden');
 		}
 	})
 	.on('submit', 'form[data-ajax="true"]', function() {
 
 		var $form = $(this);
+		var data = $form.serialize();
+		var url = $form.attr('action');
 		$form.css('opacity', '0.3');
 		$form.find(':input').attr('disabled', 'disabled');
 
 		var success_callback = $form.attr('data-ajax-onsubmit-success') ? window[$form.attr('data-ajax-onsubmit-success')] : function() {};
 		var fail_callback = $form.attr('data-ajax-onsubmit-fail') ? window[$form.attr('data-ajax-onsubmit-fail')] : function() {};
 
-		var url = $form.attr('action');
-		$.post(url, $form.serialize(), function(r) {
+		$.post(url, data, function(r) {
 			$form.find(':input').removeAttr('disabled');
 			$form.css('opacity', '1');
 			if (r.is_error) {
@@ -51,7 +53,7 @@ function onSessionSaveSuccess(r) {
 }
 
 function onSessionSaveFail(r) {
-	console.log('fail %o', r);
+	alert(r.data[0]);
 }
 
 function reloadCalendar() {

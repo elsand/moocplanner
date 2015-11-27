@@ -205,3 +205,7 @@
 #popup #repeatable-container {
 	padding-left: 1em;
 }
+
+#popup #save {
+	margin-right: 0;
+}

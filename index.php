@@ -12,7 +12,7 @@ if (!empty($_GET['action'])) {
 		$action();
 	}
 	else {
-		display_error('Invalid action specificed');
+		display_error('Ugyldig handling');
 	}
 }
 else {
@@ -47,7 +47,7 @@ function action_default() {
 function action_new_session() {
 
 	if (empty($_GET['date']) || !strtotime($_GET['date'])) {
-		throw new RuntimeException('Invalid date');
+		throw new RuntimeException('Ugyldig dato');
 	}
 
 	$tpl = new tpl('edit_session');
@@ -58,36 +58,52 @@ function action_new_session() {
 }
 
 function action_edit_session() {
-	if (empty($_GET['session_id']) || !ctype_digit($_GET['session_id'])) {
-		throw new RuntimeException('Invalid session id');
-	}
-	$session_id = (int) $_GET['session_id'];
-	$modules = get_modules_for_user(LOADED_COURSE_ID);
-	$date = null;
-	$the_session = null;
-	foreach ($modules as $m) {
-		foreach ($m->sessions as $s) {
-			if ($s->id == $session_id) {
-				$the_session = $s;
-				$date = $s->date;
-				break 2;
-			}
-		}
-	}
-	if (!$the_session) {
-		throw new RuntimeException('Could not find session');
+	if (empty($_GET['session_id']) || !ctype_digit($_GET['session_id']) || !($session = get_session_by_id($_GET['session_id']))) {
+		throw new RuntimeException('Ugyldig session id');
 	}
 
 	$tpl = new tpl('edit_session');
-	$tpl->set('session', $the_session);
-	$tpl->set('modules', $modules);
-	$tpl->set('date', $date);
+	$tpl->set('session', $session);
+	$tpl->set('modules', get_modules_for_user(LOADED_COURSE_ID));
+	$tpl->set('date', $session->date);
 
 	echo $tpl->render();
 }
 
 
 function action_save_session() {
+
+	if (empty($_POST['module_id']) || !ctype_digit($_POST['module_id']) || !get_module_by_id($_POST['module_id'])) {
+		ajax_response(true, ['Ugyldig module id']);
+	}
+
+	if (empty($_POST['date']) || !strtotime($_POST['date'])) {
+		ajax_response(true, ['Ugyldig date']);
+	}
+
+	if (!empty($_POST['session_id']) && (!ctype_digit($_POST['session_id']) || !get_session_by_id($_POST['session_id']))) {
+		ajax_response(true, ['Ugyldig session id']);
+	}
+	
+	if (!empty($_POST['repeatable']) && (empty($_POST['repeat_interval_weeks']) || !ctype_digit($_POST['repeat_interval_weeks']))) {
+		ajax_response(true, ['Ugyldig ukesintervall.']);
+	}
+
+	if (empty($_POST['duration_hours']) || !ctype_digit($_POST['duration_hours']) || $_POST['duration_hours'] == 0 || $_POST['duration_hours'] > 24) {
+		ajax_response(true, ['Du må oppgi mellom 1 og 24 timers lengde på økten.']);
+	}
+
+	if (!empty($_POST['repeatable']) && (empty($_POST['repeat_days']) || !is_valid_days($_POST['repeat_days']))) {
+		ajax_response(true, ['Du må oppgi minst én ukedag du ønsker å gjenta arbeidsøkten på.']);
+	}
+
+	try {
+		save_session_to_database($_POST);
+	}
+	catch (RuntimeException $e) {
+		ajax_response(true, [ $e->getMessage() ]);
+	}
+
 	ajax_response();
 }
 

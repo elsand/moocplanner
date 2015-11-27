@@ -314,3 +314,54 @@ function get_user_standard_module_hours($course_id) {
 	}
 	return $sth->fetchColumn();
 }
+
+function get_module_by_id($module_id) {
+	$modules = get_modules_for_user(LOADED_COURSE_ID);
+		foreach ($modules as $m) {
+		if ($m->id == $module_id) {
+			return $m;
+		}
+	}
+	return false;
+}
+
+function get_session_by_id($session_id) {
+	$modules = get_modules_for_user(LOADED_COURSE_ID);
+	$date = null;
+	$the_session = null;
+	foreach ($modules as $m) {
+		foreach ($m->sessions as $s) {
+			if ($s->id == $session_id) {
+				return $s;
+			}
+		}
+	}
+	return false;
+}
+
+function save_session_to_database($post) {
+	$fields =
+	[
+		':module_id' => $post['module_id'],
+		':user_id' => CURRENT_USER_ID,
+		':start_date' => date('Y-m-d', strtotime($post['date'])),
+		':hours' => $post['duration_hours'],
+		':repeating' => empty($post['repeatable']) ? null : $post['repeat_interval_weeks'],
+		':repeat_days' => empty($post['repeat_days']) ? null : join(',', $post['repeat_days'])
+	];
+
+	$db = get_database_connection();
+	if ($post['session_id']) {
+		$prelude = 'UPDATE session SET ';
+		$postlude = ' WHERE id = :id';
+		$fields[':id'] = $post['session_id'];
+	}
+	else {
+		$prelude = 'INSERT INTO session SET ';
+		$postlude = '';
+	}
+	$sth = $db->prepare($prelude . 'user_id = :user_id, module_id = :module_id, start_date = :start_date, hours = :hours, repeating = :repeating, repeat_days = :repeat_days' . $postlude);
+
+	$sth->execute($fields);
+
+}

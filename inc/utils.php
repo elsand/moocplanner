@@ -29,3 +29,11 @@ function ajax_response($error = false, $data = []) {
 		'data' => $data
 	]));
 }
+
+function is_valid_days(array $days) {
+	foreach ($days as $d) {
+		if (!preg_match('/^[1-7]$/', $d))
+			return false;
+	}
+	return true;
+}
