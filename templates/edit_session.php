@@ -77,14 +77,17 @@
 		</div>
 
 		<div class="row large-collapse">
-			<div class="large-6 columns text-left">
+			<div class="large-4 columns text-left">
 				<button type="button" class="small button secondary" id="cancel">Avbryt</button>
 			</div>
-			<div class="large-6 columns text-right">
-				<button type="submit" class="small button" id="save">Lagre</button>
+			<div class="large-8 columns text-right">
+				<?php if ($session->id): ?>
+				<button type="button" class="small button alert" data-id="<?=$session->id?>" id="delete">Slett</button>
+				<button type="button" class="small button" data-id="<?=$session->id?>" id="complete">Fullfør</button>
+				<?php endif ?>
+				<button type="submit" class="small button success" id="save">Lagre</button>
+				</div>
 			</div>
 		</div>
 	</form>
-
-
 </div>

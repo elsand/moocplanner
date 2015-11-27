@@ -365,3 +365,9 @@ function save_session_to_database($post) {
 	$sth->execute($fields);
 
 }
+
+function delete_session_from_database($session_id) {
+	$db = get_database_connection();
+	$sth = $db->prepare('DELETE FROM session WHERE id = ?');
+	$sth->execute([$session_id]);
+}

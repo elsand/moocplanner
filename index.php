@@ -107,6 +107,21 @@ function action_save_session() {
 	ajax_response();
 }
 
+function action_delete_session() {
+	if (!empty($_POST['session_id']) && (!ctype_digit($_POST['session_id']) || !get_session_by_id($_POST['session_id']))) {
+		ajax_response(true, ['Ugyldig session id']);
+	}
+
+	try {
+		delete_session_from_database($_POST['session_id']);
+	}
+	catch (RuntimeException $e) {
+		ajax_response(true, [ $e->getMessage() ]);
+	}
+
+	ajax_response();
+}
+
 function action_complete_module() {
 
 }
