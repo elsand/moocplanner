@@ -31,3 +31,4 @@ class Session {
 	/** @var bool If this session is invalid, eg. because the module is already completed */
 	public $is_invalid;
 }
+?>
