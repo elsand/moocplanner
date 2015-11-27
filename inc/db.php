@@ -368,6 +368,16 @@ function save_session_to_database($post) {
 
 function delete_session_from_database($session_id) {
 	$db = get_database_connection();
-	$sth = $db->prepare('DELETE FROM session WHERE id = ?');
-	$sth->execute([$session_id]);
+	$sth = $db->prepare('DELETE FROM session WHERE id = ? AND user_id = ?');
+	$sth->execute([$session_id, CURRENT_USER_ID]);
+}
+
+function set_completed_flag_on_module($module_id, $flag) {
+	$db = get_database_connection();
+	$sth = $db->prepare('UPDATE user_module SET completed = ? WHERE module_id = ? AND user_id = ?');
+	$sth->execute([$flag, $module_id, CURRENT_USER_ID]);
+	if (!$sth->rowCount()) {
+		$sth = $db->prepare('INSERT INTO user_module SET completed = ?, module_id = ?, user_id = ?');
+		$sth->execute([$flag, $module_id, CURRENT_USER_ID]);
+	}
 }

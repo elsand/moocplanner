@@ -93,6 +93,10 @@
 	margin-top: 35px;
 }
 
+#calendar .session.completed {
+	opacity: 0.3;
+}
+
 #calendar .module-order {
 	font-size: 70%;
 	position: absolute;

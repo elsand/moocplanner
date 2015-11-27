@@ -77,15 +77,19 @@
 		</div>
 
 		<div class="row large-collapse">
-			<div class="large-4 columns text-left">
+			<div class="large-2 columns text-left">
 				<button type="button" class="small button secondary" id="cancel">Avbryt</button>
 			</div>
-			<div class="large-8 columns text-right">
+			<div class="large-10 columns text-right">
 				<?php if ($session->id): ?>
-				<button type="button" class="small button alert" data-id="<?=$session->id?>" id="delete">Slett</button>
-				<button type="button" class="small button" data-id="<?=$session->id?>" id="complete">Fullfør</button>
+					<button type="button" class="small button alert" data-id="<?=$session->id?>" id="delete">Slett økt</button>
+					<?php if ($session->module->completed): ?>
+						<button type="button" class="small button" data-id="<?=$session->module->id?>" id="reopen">Gjenåpne modul</button>
+					<?php else: ?>
+						<button type="button" class="small button" data-id="<?=$session->module->id?>" id="complete">Fullfør modul</button>
+					<?php endif ?>
 				<?php endif ?>
-				<button type="submit" class="small button success" id="save">Lagre</button>
+				<button type="submit" class="small button success" id="save">Lagre økt</button>
 				</div>
 			</div>
 		</div>

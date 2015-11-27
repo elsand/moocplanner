@@ -22,17 +22,20 @@ $('body')
 	.on('click', '#edit_session #delete', function() {
 		if (!confirm('Er du sikker på du vil slette denne sesjonen? Dette vil slette alle reperterte økter.')) return;
 		$.post('?action=delete_session', { session_id: $(this).attr('data-id') }, function(r) {
-			if (r.is_error) {
-				onSessionSaveFail(r);
-
-			}
-			else {
-				onSessionSaveSuccess();
-			}
+			r.is_error ? onSessionSaveFail(r) : onSessionSaveSuccess();
 		}, 'json')
 	})
 	.on('click', '#edit_session #complete', function() {
-		$(this).parent().remove();
+		if (!confirm('Er du sikker på du vil merke denne modulen som fullført?')) return;
+		$.post('?action=complete_module', { module_id: $(this).attr('data-id') }, function(r) {
+			r.is_error ? onSessionSaveFail(r) : onSessionSaveSuccess();
+		}, 'json')
+	})
+	.on('click', '#edit_session #reopen', function() {
+		if (!confirm('Er du sikker på du vil gjenåpne denne modulen?')) return;
+		$.post('?action=reopen_module', { module_id: $(this).attr('data-id') }, function(r) {
+			r.is_error ? onSessionSaveFail(r) : onSessionSaveSuccess();
+		}, 'json')
 	})
 	.on('submit', 'form[data-ajax="true"]', function() {
 		var $form = $(this);
