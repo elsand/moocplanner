@@ -45,16 +45,50 @@ function action_default() {
 }
 
 function action_new_session() {
+
+	if (empty($_GET['date']) || !strtotime($_GET['date'])) {
+		throw new RuntimeException('Invalid date');
+	}
+
 	$tpl = new tpl('edit_session');
+	$tpl->set('session', new Session());
+	$tpl->set('modules', get_modules_for_user(LOADED_COURSE_ID));
+	$tpl->set('date', new DateTime($_GET['date']));
 	echo $tpl->render();
 }
 
 function action_edit_session() {
+	if (empty($_GET['session_id']) || !ctype_digit($_GET['session_id'])) {
+		throw new RuntimeException('Invalid session id');
+	}
+	$session_id = (int) $_GET['session_id'];
+	$modules = get_modules_for_user(LOADED_COURSE_ID);
+	$date = null;
+	$the_session = null;
+	foreach ($modules as $m) {
+		foreach ($m->sessions as $s) {
+			if ($s->id == $session_id) {
+				$the_session = $s;
+				$date = $s->date;
+				break 2;
+			}
+		}
+	}
+	if (!$the_session) {
+		throw new RuntimeException('Could not find session');
+	}
 
+	$tpl = new tpl('edit_session');
+	$tpl->set('session', $the_session);
+	$tpl->set('modules', $modules);
+	$tpl->set('date', $date);
+
+	echo $tpl->render();
 }
 
-function action_save_session() {
 
+function action_save_session() {
+	ajax_response();
 }
 
 function action_complete_module() {

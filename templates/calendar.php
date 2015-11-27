@@ -64,8 +64,8 @@
 						}
 
 						if ($date <= $days_in_month) {
-							$ymd = sprintf('%02d-%02d-%d', $year, $month, $date);
-							$class = '';//'date-'. $ymd;
+							$ymd = sprintf('%02d-%02d-%02d', $year, $month, $date);
+							$class = '';
 							if ($ymd == date('Y-m-d')) {
 								$class .= " is-today";
 							}

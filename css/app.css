@@ -132,3 +132,48 @@
 	border: 1px solid #ddd;
 	padding-left: 5px;
 }
+
+#popup .please-wait {
+	display: block;
+	background: url(../img/spinner.gif);
+	width: 24px;
+	height: 24px;
+	margin: 75px auto;
+
+}
+
+#popup.edit-session  {
+	width: 420px;
+	height: 280px;
+}
+
+#popup label,
+#popup select,
+#popup input[type="text"],
+#popup input[type="number"]
+{
+	margin-bottom: 8px;
+	padding: 4px;
+	font-size: 0.875rem;
+	height: 2rem;
+}
+
+#popup label {
+	line-height: 1;
+	padding: 0.5625rem 0;
+	white-space: nowrap;
+}
+
+
+#popup.edit-session .currently-selected {
+	font-weight: bold;
+}
+
+#popup [type="checkbox"] + label, #popup [type="radio"] + label {
+	margin: 0 0 0 4px;
+	height: 1rem;
+}
+
+#popup #repeatable-container {
+	padding-left: 1em;
+}

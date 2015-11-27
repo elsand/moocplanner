@@ -23,7 +23,7 @@ class Session {
 	public $repeat_interval_weeks;
 
 	/** @var array Contains day numbers to repeat this session */
-	public $repeat_days;
+	public $repeat_days = [];
 
 	/** @var bool If this session is in a state of conflict (too many sessions per day) */
 	public $is_conflicted;

@@ -142,6 +142,12 @@ function get_not_fully_booked_modules($course_id) {
 	return $modules;
 }
 
+/**
+ * @param $course_id
+ *
+ * @return Module[]
+ * @throws RuntimeException
+ */
 function get_modules_for_user($course_id) {
 	$db = get_database_connection();
 	$sth = $db->prepare('
