@@ -70,7 +70,7 @@
 								$class .= " is-today";
 							}
 							echo '<td class="' . $class . '">';
-							echo '<span class="date"><a title="Klikk for å legge til økt på denne dagen" id="date-' . $ymd . '" href="javascript:">' . $date . '</a></span>';
+							echo '<span class="date"><a title="Klikk for å legge til økt på denne dagen" class="js-calendar-add-session" id="date-' . $ymd . '" href="javascript:">' . $date . '</a></span>';
 
 							display_entries_for_date($date, $entries);
 
@@ -116,7 +116,7 @@ function display_entries_for_date($date, $entries) {
 function render_calendar_entry(Session $session) {
 	$perc_complete = round(($session->module->spent_hours + $session->module->booked_hours) / $session->module->estimated_hours * 100);
 ?>
-<div class="session session-<?=$session->id?>" id="session-<?=$session->id?>-<?=$session->date->format('Ymd')?>" style="<?= generate_style_from_module($session->module)?> ">
+<div class="session session-<?=$session->id?> js-calendar-edit-session" data-id="<?=$session->id?>" id="session-<?=$session->id?>-<?=$session->date->format('Ymd')?>" style="<?= generate_style_from_module($session->module)?> ">
 	<span class="module-order"><?=$session->module->index?></span>
 	<span class="session-repeated"<?=$session->is_repeated ? ' title="Dette er en repetert arbeidsøkt"' : ''?>><?=$session->is_repeated ? 'R' : ''?></span>
 	<span class="module-name" title="<?=h($session->module->name)?>"><?=h($session->module->name)?></span>

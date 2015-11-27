@@ -45,7 +45,8 @@ function action_default() {
 }
 
 function action_new_session() {
-
+	$tpl = new tpl('edit_session');
+	echo $tpl->render();
 }
 
 function action_edit_session() {

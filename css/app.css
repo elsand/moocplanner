@@ -68,7 +68,7 @@
 	font-size: 28px;
 	color: #ccc;
 	z-index: 0;
-	top: 4px;
+	top: -4px;
 	left: 4px;
 }
 
@@ -87,6 +87,10 @@
 	width: 100%;
 	position: relative;
 	cursor: pointer;
+}
+
+#calendar .session:first-of-type {
+	margin-top: 35px;
 }
 
 #calendar .module-order {
@@ -120,4 +124,37 @@
 	margin: 0;
 	height: 5px;
 	border: 1px solid #aaa;
+}
+
+#popup {
+	position: absolute;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	width: 300px;
+	height: 200px;
+	top: 100px;
+	left: 100px;
+	z-index: 10000;
+	padding: 4px 10px;
+	-webkit-box-shadow: 10px 10px 32px -7px rgba(0,0,0,0.64);
+	-moz-box-shadow: 10px 10px 32px -7px rgba(0,0,0,0.64);
+	box-shadow: 10px 10px 32px -7px rgba(0,0,0,0.64);
+}
+
+#popup .close {
+	position: absolute;
+	right: 10px;
+}
+
+#popup .content {
+	overflow: auto;
+}
+
+#popup .please-wait {
+	display: block;
+	background: url(../img/spinner.gif);
+	width: 24px;
+	height: 24px;
+	margin: 75px auto;
+
 }
