@@ -5,7 +5,7 @@ if (!file_exists(__DIR__ . '/dbconfig.php')) {
 }
 require 'dbconfig.php';
 
-setlocale(LC_TIME, 'no_NO');
+setlocale(LC_TIME, 'nb_NO');
 date_default_timezone_set('Europe/Oslo');
 
 ini_set('default_charset', 'utf-8');

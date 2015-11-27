@@ -109,3 +109,10 @@
 	height: 5px;
 	border: 1px solid #aaa;
 }
+
+.footer_module_list {
+	height: 115px;
+	overflow: auto;
+	border: 1px solid #ddd;
+	padding-left: 5px;
+}
