@@ -156,8 +156,8 @@ function action_toggle_view_completed() {
 
 }
 
-function action_module_settings() {
-	$tpl = new tpl('module_settings');
+function action_edit_module_settings() {
+	$tpl = new tpl('edit_module_settings');
 	$tpl->set('modules', get_modules_for_user(LOADED_COURSE_ID));
 	$tpl->set('standard_module_hours', get_user_standard_module_hours(LOADED_COURSE_ID));
 	echo $tpl->render();

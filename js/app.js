@@ -1,6 +1,9 @@
 $(document).foundation();
 
 $('body')
+	.on('click', '#js-module-settings', function(e) {
+		createPopup('edit-module-settings', 'Rediger modulinnstillinger', '?action=edit_module_settings');
+	})
 	.on('click', '.js-calendar-add-session', function(e) {
 		console.log(e);
 		createPopup('edit-session new-session', 'Ny arbeidsøkt', '?action=new_session&date=' + $(e.currentTarget).attr('id').replace('date-', ''), e);
