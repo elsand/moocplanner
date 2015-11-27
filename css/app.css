@@ -132,6 +132,16 @@
 	border: 1px solid #ddd;
 	padding-left: 5px;
 }
+.footer_button_outer {
+	position: relative;
+	height: 161px;
+}
+
+.footer_button_inner {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
 
 #popup {
      position: absolute;
