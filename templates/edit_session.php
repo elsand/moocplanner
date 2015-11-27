@@ -26,7 +26,7 @@
 						(<?= $unbooked_hours ?> timer ikke booket)
 						<?= $is_editing ? ' (VALGT) ' : '' ?>
 					</option>
-					<? endforeach ?>
+					<?php endforeach ?>
 				</select>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 					<select name="repeat_interval_weeks" id="repeat_interval_weeks">
 						<?php for ($i=1; $i<20; $i++): ?>
 						<option value="<?=$i?>" <?= $session->repeat_interval_weeks == $i ? ' selected' : '' ?>><?=$i?></option>
-						<? endfor ?>
+						<?php endfor ?>
 					</select>
 				</div>
 				<div class="large-6 columns end">
