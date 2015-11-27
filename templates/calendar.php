@@ -22,8 +22,8 @@
 							</div>
 							<div class="large-3 columns text-right">
 								<a href="<?=get_month_link($month, $year, 1)?>" class="small button" type="button">
-									<i class="fi-arrow-right"></i>
 									Neste
+									<i class="fi-arrow-right"></i>
 								</a>
 							</div>
 						</div>
