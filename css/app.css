@@ -258,5 +258,7 @@
 	margin-right: 0;
 }
 
-
-
+#popup.edit-module-settings {
+	width: 600px;
+	height: 750px;
+}
