@@ -22,3 +22,10 @@ function month_num_to_name($num) {
 function h($str) {
 	return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
+
+function ajax_response($error = false, $data = []) {
+	die(json_encode([
+		'is_error' => $error,
+		'data' => $data
+	]));
+}

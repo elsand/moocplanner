@@ -144,10 +144,21 @@
 #popup .close {
 	position: absolute;
 	right: 10px;
+	top: 2px;
+}
+
+#popup .title {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	padding: 2px 6px;
+	background-color: #ccc;
 }
 
 #popup .content {
 	overflow: auto;
+	margin-top: 30px;
 }
 
 #popup .please-wait {
@@ -157,4 +168,40 @@
 	height: 24px;
 	margin: 75px auto;
 
+}
+
+#popup.edit-session  {
+	width: 420px;
+	height: 280px;
+}
+
+#popup label,
+#popup select,
+#popup input[type="text"],
+#popup input[type="number"]
+{
+	margin-bottom: 8px;
+	padding: 4px;
+	font-size: 0.875rem;
+	height: 2rem;
+}
+
+#popup label {
+	line-height: 1;
+	padding: 0.5625rem 0;
+	white-space: nowrap;
+}
+
+
+#popup.edit-session .currently-selected {
+	font-weight: bold;
+}
+
+#popup [type="checkbox"] + label, #popup [type="radio"] + label {
+	margin: 0 0 0 4px;
+	height: 1rem;
+}
+
+#popup #repeatable-container {
+	padding-left: 1em;
 }
