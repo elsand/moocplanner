@@ -2,6 +2,7 @@
 /** @var Module[] $not_fully_booked */
 // Comments
 ?>
+<hr />
 <div class="row">
     <div class="large-8 columns">
         <?php if (!$not_fully_booked): ?>
@@ -17,7 +18,12 @@
             </dl>
         <?php endif ?>
     </div>
-    <div class="large-2 columns">
-        <button class="button secondary" id="js-module-settings">Modulinnstillinger</button>
+    <div class="large-4 columns">
+    <div class="footer_button_outer">
+        <div class="footer_button_inner">
+            <button class="button secondary" id="js-module-settings">Modulinnstillinger</button>
+        </div>
+    </div>
     </div>
 </div>
+<hr />
