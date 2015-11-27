@@ -126,7 +126,7 @@ function render_calendar_entry(Session $session) {
 	</div>
 </div>
 
-<?
+<?php
 }
 
 function get_month_link($month, $year, $add) {
@@ -148,3 +148,4 @@ function generate_style_from_module(Module $module) {
 	return sprintf($ret, $background_color_rgb, $text_color_rgb);
 
 }
+?>

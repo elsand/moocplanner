@@ -30,7 +30,7 @@
 		<em>Ingen påbegynte moduler</em>
 	<?php else: ?>
 		<ul id="active-modules">
-		<? foreach ($active_modules as $m): ?>
+		<?php foreach ($active_modules as $m): ?>
 			<li>
 				<input type="checkbox"> <?= $m->name ?>
 				<div class="progress multiple" role="progressbar">
