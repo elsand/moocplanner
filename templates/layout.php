@@ -11,7 +11,9 @@
   </head>
   <body>
 
+    <div id="main-container">
     ###CONTENT###
+    </div>
 
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/vendor/what-input.min.js"></script>

@@ -49,15 +49,15 @@ $('body')
 
 function onSessionSaveSuccess(r) {
 	closePopup();
-	reloadCalendar();
+	reloadEverything();
 }
 
 function onSessionSaveFail(r) {
 	alert(r.data[0]);
 }
 
-function reloadCalendar() {
-	$('#calendar').load(window.location.toString() + "  #calendar >*");
+function reloadEverything() {
+	$('#main-container').load(window.location.toString());
 }
 
 function createPopup(css_class, title, url, click_event) {
