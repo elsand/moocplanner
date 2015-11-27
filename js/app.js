@@ -12,7 +12,6 @@ $('body')
 		$(this).parent().remove();
 	})
 	.on('click', '#popup #repeatable', function() {
-
 		if ($(this).is(':checked')) {
 			$('#repeatable-container').css('visibility', 'visible');
 		}
@@ -20,8 +19,22 @@ $('body')
 			$('#repeatable-container').css('visibility', 'hidden');
 		}
 	})
-	.on('submit', 'form[data-ajax="true"]', function() {
+	.on('click', '#edit_session #delete', function() {
+		if (!confirm('Er du sikker på du vil slette denne sesjonen? Dette vil slette alle reperterte økter.')) return;
+		$.post('?action=delete_session', { session_id: $(this).attr('data-id') }, function(r) {
+			if (r.is_error) {
+				onSessionSaveFail(r);
 
+			}
+			else {
+				onSessionSaveSuccess();
+			}
+		}, 'json')
+	})
+	.on('click', '#edit_session #complete', function() {
+		$(this).parent().remove();
+	})
+	.on('submit', 'form[data-ajax="true"]', function() {
 		var $form = $(this);
 		var data = $form.serialize();
 		var url = $form.attr('action');
