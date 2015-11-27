@@ -1,3 +1,9 @@
+
+#course-overview .progress {
+	margin: 4px 0 0 ;
+}
+
+
 .progress > .progress-meter-text {
 	display: block;
 	text-align: center;
@@ -94,7 +100,7 @@
 }
 
 #calendar .session.completed {
-	opacity: 0.3;
+	opacity: 0.2;
 }
 
 #calendar .module-order {
@@ -128,6 +134,18 @@
 	margin: 0;
 	height: 5px;
 	border: 1px solid #aaa;
+}
+
+#footer {
+	position: fixed;
+	padding-top: 6px;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	border-top: 1px solid #ddd;
+	height: 100px;
+	background-color: #fff;
+	z-index: 20;
 }
 
 .footer_module_list {

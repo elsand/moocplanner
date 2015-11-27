@@ -4,28 +4,30 @@
 
 ?>
 <div class="row">
-	<div class="large-4 columns">
-		<dl id="course-info">
-			<dt>Kurs:</dt>
-			<dd><?= $course_data->name ?> (<?= $course_data->modules_count ?> moduler, <?= $course_data->exam_count ?> eksamener)</dd>
-
-			<dt>Påmeldt:</dt>
-			<dd><?= fdate(DATE_FORMAT_LONG_DATE, $course_data->enrolled_date) ?></dd>
-
-			<dt>Fullførte moduler:</dt>
-			<dd>
+	<div class="large-5 columns" id="course-overview">
+		<h5>Kursoversikt</h5>
+		<div class="row">
+			<div class="large-2 columns">Kurs:</div>
+			<div class="large-10 columns"><strong><?= $course_data->name ?> (<?= $course_data->modules_count ?> moduler, <?= $course_data->exam_count ?> eksamener)</strong></div>
+		</div>
+		<div class="row">
+			<div class="large-2 columns">Påmeldt:</div>
+			<div class="large-10 columns"><strong><?= fdate(DATE_FORMAT_LONG_DATE, $course_data->enrolled_date) ?></strong></div>
+		</div>
+		<div class="row">
+			<div class="large-2 columns">Fremdrift:</div>
+			<div class="large-10 columns">
 				<div class="progress" role="progressbar">
 					<span class="progress-meter success" style="width: <?=
 						$course_data->completed_modules_count / $course_data->modules_count * 100
 					?>%"></span>
-					<span class="progress-meter-text"><?= $course_data->completed_modules_count ?> / <?= $course_data->modules_count ?></span>
+					<span class="progress-meter-text"><?= $course_data->completed_modules_count ?> / <?= $course_data->modules_count ?> moduler fullført</span>
 				</div>
-
-			</dd>
-		</dl>
+			</div>
+		</div>
 	</div>
-	<div class="large-8 columns">
-	<h4>Påbegynte moduler pr. <?= fdate(DATE_FORMAT_SHORT_DATE) ?> </h4>
+	<div class="large-7 columns">
+	<h5>Påbegynte moduler per <?= fdate(DATE_FORMAT_LONG_DATE) ?> </h4>
 	<?php if (!count($active_modules)): ?>
 		<em>Ingen påbegynte moduler</em>
 	<?php else: ?>

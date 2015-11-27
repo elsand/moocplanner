@@ -15,6 +15,7 @@
 			<div class="large-6 columns">
 				<select id="module_id" name="module_id">
 					<?php foreach ($modules as $m):
+						if ($m->completed) continue;
 						$unbooked_hours = $m->estimated_hours - $m->spent_hours - $m->booked_hours;
 						$is_editing = $session->module->id == $m->id;
 						if ($unbooked_hours <= 0 && !$is_editing) {

@@ -2,7 +2,7 @@
 /** @var Module[] $not_fully_booked */
 // Comments
 ?>
-<hr />
+<div id="footer">
 <div class="row">
     <div class="large-8 columns">
         <?php if (!$not_fully_booked): ?>
@@ -26,4 +26,4 @@
     </div>
     </div>
 </div>
-<hr />
+</div>

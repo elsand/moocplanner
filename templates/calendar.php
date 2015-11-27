@@ -88,7 +88,6 @@
 						}
 						echo '<tr><th class="weeknum"><span>'. $wn . '</span></th>';
 					}
-
 				}
 				echo "</tr>";
 
@@ -102,15 +101,11 @@
 <?php
 
 function display_entries_for_date($date, $entries) {
-
 	if (empty($entries[$date])) return;
-
 	foreach ($entries[$date] as $session) {
 		/** @var Session $session */
 		render_calendar_entry($session);
 	}
-
-
 }
 
 function render_calendar_entry(Session $session) {
@@ -146,5 +141,4 @@ function generate_style_from_module(Module $module) {
 	$text_color_rgb = $luminance < 0.6 ? '000000' : 'FFFFFF';
 
 	return sprintf($ret, $background_color_rgb, $text_color_rgb);
-
 }
