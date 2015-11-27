@@ -123,7 +123,33 @@ function action_delete_session() {
 }
 
 function action_complete_module() {
+	if (empty($_POST['module_id']) || !ctype_digit($_POST['module_id']) || !get_module_by_id($_POST['module_id'])) {
+		ajax_response(true, ['Ugyldig module id']);
+	}
 
+	try {
+		set_completed_flag_on_module($_POST['module_id'], true);
+	}
+	catch (RuntimeException $e) {
+		ajax_response(true, [ $e->getMessage() ]);
+	}
+
+	ajax_response();
+}
+
+function action_reopen_module() {
+	if (empty($_POST['module_id']) || !ctype_digit($_POST['module_id']) || !get_module_by_id($_POST['module_id'])) {
+		ajax_response(true, ['Ugyldig module id']);
+	}
+
+	try {
+		set_completed_flag_on_module($_POST['module_id'], false);
+	}
+	catch (RuntimeException $e) {
+		ajax_response(true, [ $e->getMessage() ]);
+	}
+
+	ajax_response();
 }
 
 function action_toggle_view_completed() {
