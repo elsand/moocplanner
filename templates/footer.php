@@ -3,7 +3,7 @@
 // Comments
 ?>
 <div class="row">
-    <div class="small-7 columns">
+    <div class="large-8 columns">
         <?php if (!$not_fully_booked): ?>
             <em>Alle moduler er booket i kalenderen.</em>
         <?php else: ?>
@@ -16,5 +16,8 @@
                 </div>
             </dl>
         <?php endif ?>
+    </div>
+    <div class="large-2 columns">
+        <button class="button secondary" id="js-module-settings">Modulinnstillinger</button>
     </div>
 </div>
