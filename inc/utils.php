@@ -18,3 +18,7 @@ function fdate($format, DateTime $datetime = null) {
 function month_num_to_name($num) {
 	return ucfirst(strftime(DATE_FORMAT_MONTH, mktime(0, 0, 0, $num, 10)));
 }
+
+function h($str) {
+	return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}

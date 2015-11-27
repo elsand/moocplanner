@@ -4,6 +4,18 @@
 	margin-top: -17px;
 	font-size: 74%;
 }
+.progress.multiple span.progress-meter {
+	display: inline-block;
+	top: -2px;
+}
+
+.progress-meter.spent {
+	background-color: #17cc1d;
+}
+
+.progress-meter.booked {
+	background-color: #88e008;
+}
 
 #calendar table {
 	width: 100%;
@@ -24,6 +36,10 @@
 
 #calendar td {
 	border: 1px solid #ddd;
+	position: relative;
+	padding: 0;
+	height: 115px;
+	vertical-align: bottom;
 }
 
 #calendar td:hover {
@@ -48,9 +64,48 @@
 
 #calendar td span.date {
 	display: block;
-	min-height: 75px;
+	position: absolute;
 	text-align: center;
-	padding-top: 18px;
 	font-size: 28px;
 	color: #ccc;
+	z-index: 0;
+	top: 4px;
+	left: 4px;
+}
+
+#calendar .session {
+	z-index: 10;
+	font-size: 70%;
+	border: 1px solid #aaa;
+	padding: 4px;
+	width: 100%;
+	position: relative;
+}
+
+#calendar .module-order {
+	font-size: 70%;
+	position: absolute;
+	text-align: right;
+	width: 5px;
+	top: 1px;
+}
+
+#calendar .module-name {
+	font-weight: bold;
+	width: 125px;
+	display: inline-block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	padding-left: 13px;
+}
+
+#calendar .session-duration {
+	float: right;
+}
+
+#calendar .progress {
+	margin: 0;
+	height: 5px;
+	border: 1px solid #aaa;
 }

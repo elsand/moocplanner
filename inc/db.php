@@ -71,8 +71,18 @@ function get_active_modules($course_id) {
 	$course_enrollment = get_course_enrollment($course_id);
 	$modules = [];
 	foreach ($course_enrollment->modules as $m) {
-		if ($m->is_active) {
+		if ($m->completed) continue;
+		if ($m->spent_hours) {
 			$modules[] = $m;
+			continue;
+		}
+		// If we have sessions today, consider the module active
+		$today = date('Ymd');
+		foreach ($m->sessions as $s) {
+			if ($s->date->format('Ymd') == $today) {
+				$modules[] = $m;
+				continue;
+			}
 		}
 	}
 	return $modules;
@@ -80,12 +90,12 @@ function get_active_modules($course_id) {
 
 /**
  * Gets an array of Session objects for the supplied course, year and month.
- * The array has the form:
+ * The array has the form (where the key is the date):
  *
  * [
- *    '2015-11-20' => [ $session1, $session2, ...],
- *    '2015-11-24' => [ $session3 ],
- *    '2016-01-05' => [ $session5 ]
+ *    '11' => [ $session1, $session2, ...],
+ *    '12' => [ $session3 ],
+ *    '15' => [ $session5 ]
  * ]
  *
  * @param $course_id
@@ -95,7 +105,21 @@ function get_active_modules($course_id) {
  * @return array
  */
 function get_sessions_for_month($course_id, $year, $month) {
-	return [];
+
+	$sessions = [];
+	$course_enrollment = get_course_enrollment($course_id);
+	foreach ($course_enrollment->modules as $module) {
+		foreach ($module->sessions as $session) {
+			if ($session->date->format('Y') == $year && $session->date->format('n') == $month) {
+				$date = $session->date->format('j');
+				if (!isset($sessions[$date])) {
+					$sessions[$date] = [];
+				}
+				$sessions[$date][] = $session;
+			}
+		}
+	}
+	return $sessions;
 }
 
 /**
@@ -122,10 +146,10 @@ function get_modules_for_user($course_id) {
 	$db = get_database_connection();
 	$sth = $db->prepare('
 		SELECT
-		m.course_id, m.is_exam, m.module_hours, m.module_order, m.name,
+		m.course_id, m.is_exam, m.module_hours, m.module_order, m.name, m.id as module_id, m.module_order,
 		c.standard_module_hours as course_standard_module_hours,
 		uc.standard_module_hours as user_standard_module_hours,
-		um.user_id, um.module_id, um.module_hours as user_module_hours, um.completed
+		um.user_id, um.module_hours as user_module_hours, um.completed
 		FROM course c, user_course uc, module m
 		LEFT JOIN user_module um ON (m.id = um.module_id AND um.user_id = ?)
 		WHERE c.id = uc.course_id
@@ -140,6 +164,7 @@ function get_modules_for_user($course_id) {
 	while ($r = $sth->fetch()) {
 		$m = new Module();
 		$m->id = $r['module_id'];
+		$m->index = $r['module_order'];
 		$m->name = $r['name'];
 		$m->completed = (bool) $r['completed'];
 		// 1. Check if user has overridden this particular module
@@ -163,6 +188,9 @@ function get_modules_for_user($course_id) {
 			$m->estimated_hours = $r['course_standard_module_hours'];
 		}
 
+		// These get set in get_module_populated_with_sessions
+		$m->spent_hours = 0;
+		$m->booked_hours = 0;
 		$m = get_module_populated_with_sessions($m);
 
 		$modules[] = $m;
@@ -207,7 +235,7 @@ function get_module_populated_with_sessions(Module $m) {
 		else {
 			$m->booked_hours += $s->duration_hours;
 		}
-
+		$s->module = clone $m;
 		if ($s->is_repeating) {
 			$s->repeat_interval_weeks = $real_session['repeating'];
 			$s->repeat_days = explode(',', $real_session['repeat_days']);
@@ -220,6 +248,8 @@ function get_module_populated_with_sessions(Module $m) {
 				$new_date = clone $s->date;
 				// Add a number of weeks. Note that this is 0, so nothing gets added the first week
 				$new_date->add(new DateInterval('P' . $week_multiplier * $s->repeat_interval_weeks . 'W'));
+				// Set date to monday that week
+				$new_date->add(DateInterval::createFromDateString('last monday'));
 				foreach ($s->repeat_days as $day) {
 					if ($week_multiplier == 0 && $day <= $day_of_start_date) {
 						// only repeat for days past start_date the first week
@@ -228,19 +258,22 @@ function get_module_populated_with_sessions(Module $m) {
 					$repeated_s = clone $s;
 					$repeated_s->is_repeating = true;
 					$repeated_s->date = $new_date;
-					$repeated_s->date->add(DateInterval::createFromDateString('last ' . $day_names[$day]));
+					// Set date to the weekday we're looping to
+					$repeated_s->date->add(DateInterval::createFromDateString($day_names[$day]));
 
-
+					// We don't store the session to the array until after we've added spent/booked_hours
+					// so that we can clone a copy of the module with the correct number of hours up until that point
+					$store_session = false;
 					if ($m->estimated_hours > $m->spent_hours + $m->booked_hours + $repeated_s->duration_hours) {
 						// We got room for this session in full
-						$sessions[] = $repeated_s;
+						$store_session = true;
  					}
 					else {
 						// Not room for a full session. Check how many hours we got left.
 						$repeated_s->duration_hours = $m->estimated_hours - $m->spent_hours - $m->booked_hours;
 						if ($repeated_s->duration_hours) {
 							// Last session with some left over hours
-							$sessions[] = $repeated_s;
+							$store_session = true;
 						}
 						// Stop adding intervals, the module is fully booked / spent
 						$adding_intervals = false;
@@ -251,6 +284,8 @@ function get_module_populated_with_sessions(Module $m) {
 					else {
 						$m->booked_hours += $repeated_s->duration_hours;
 					}
+					$repeated_s->module = clone $m;
+					if ($store_session) $sessions[] = $repeated_s;
 				}
 				$week_multiplier++;
 			} while ($adding_intervals);

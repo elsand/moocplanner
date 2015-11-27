@@ -8,6 +8,7 @@ require 'dbconfig.php';
 setlocale(LC_TIME, 'no_NO');
 date_default_timezone_set('Europe/Oslo');
 
+ini_set('default_charset', 'utf-8');
 
 define('CURRENT_USER_ID', 1);
 define('LOADED_COURSE_ID', 1);

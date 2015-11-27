@@ -72,7 +72,7 @@
 							echo '<td class="' . $class . '">';
 							echo '<span class="date">' . $date . '</span>';
 
-							display_entries_for_date($date, $month, $year, $entries);
+							display_entries_for_date($date, $entries);
 
 							echo '</td>';
 						}
@@ -101,12 +101,11 @@
 
 <?php
 
-function display_entries_for_date($day, $month, $year, $entries) {
+function display_entries_for_date($date, $entries) {
 
-	$key = date('Y-m-d', mktime(12, 0, 0, $month, $day, $year));
-	if (empty($entries[$key])) return;
+	if (empty($entries[$date])) return;
 
-	foreach ($entries[$key] as $session) {
+	foreach ($entries[$date] as $session) {
 		/** @var Session $session */
 		render_calendar_entry($session);
 	}
@@ -115,10 +114,37 @@ function display_entries_for_date($day, $month, $year, $entries) {
 }
 
 function render_calendar_entry(Session $session) {
-	echo '<em>' . $session->module->name . '</em>';
-	echo $session->duration_hours;
+?>
+<div class="session session-<?=$session->id?>" id="session-<?=$session->id?>-<?=$session->date->format('Ymd')?>" style="<?= generate_style_from_module($session->module)?> ">
+	<span class="module-order"><?=$session->module->index?></span>
+	<span class="module-name" title="<?=h($session->module->name)?>"><?=h($session->module->name)?></span>
+	<span class="session-duration"><?=$session->duration_hours?>t</span>
+	<div class="progress">
+		<span class="progress-meter" style="width: <?=
+		($session->module->spent_hours + $session->module->booked_hours) / $session->module->estimated_hours * 100
+	?>%"></span>
+	</div>
+</div>
+
+<?
 }
 
 function get_month_link($month, $year, $add) {
 	return '?showmonth=' . date('Y-m', mktime(10, 0, 0, $month + $add, 15, $year));
+}
+
+
+function generate_style_from_module(Module $module) {
+
+	$ret = 'background-color: #%s; color: #%s';
+	$background_color_rgb = substr(md5($module->name . $module->index), 0, 6);
+	$r = hexdec(substr($background_color_rgb, 0, 2));
+	$g = hexdec(substr($background_color_rgb, 2, 2));
+	$b = hexdec(substr($background_color_rgb, 4, 2));
+	 // Using CCIR 601 formula, see https://en.wikipedia.org/wiki/Luma_%28video%29
+	$luminance = 1 - ( 0.299 * $r + 0.587 * $g + 0.114 * $b)/255;
+	$text_color_rgb = $luminance < 0.6 ? '000000' : 'FFFFFF';
+
+	return sprintf($ret, $background_color_rgb, $text_color_rgb);
+
 }
