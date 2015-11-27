@@ -223,7 +223,7 @@ function get_module_populated_with_sessions(Module $m) {
 		$s->id = $real_session['id'];
 		$s->date = $dt;
 		$s->duration_hours = $real_session['hours'];
-		$s->is_repeating = (bool) $real_session['repeating'];
+		$s->repeatable = (bool) $real_session['repeating'];
 		$s->is_repeated = false;
 		// TODO! Resolve conflict/invalid status
 		$s->is_conflicted = false;
@@ -236,7 +236,7 @@ function get_module_populated_with_sessions(Module $m) {
 			$m->booked_hours += $s->duration_hours;
 		}
 		$s->module = clone $m;
-		if ($s->is_repeating) {
+		if ($s->repeatable) {
 			$s->repeat_interval_weeks = $real_session['repeating'];
 			$s->repeat_days = explode(',', $real_session['repeat_days']);
 
@@ -256,8 +256,8 @@ function get_module_populated_with_sessions(Module $m) {
 						continue;
 					}
 					$repeated_s = clone $s;
-					$repeated_s->is_repeating = true;
-					$repeated_s->date = $new_date;
+					$repeated_s->is_repeated = true;
+					$repeated_s->date = clone $new_date;
 					// Set date to the weekday we're looping to
 					$repeated_s->date->add(DateInterval::createFromDateString($day_names[$day]));
 

@@ -1,7 +1,6 @@
 <?php
-if (isset($_GET['debug'])) {
+if (!empty($_GET['debug'])) {
 	var_dump($course_data);
-	exit;
 }
 /**/
 ?>
