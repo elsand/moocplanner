@@ -135,7 +135,7 @@ function get_not_fully_booked_modules($course_id) {
 	$course_enrollment = get_course_enrollment($course_id);
 	$modules = [];
 	foreach ($course_enrollment->modules as $m) {
-		if ($m->spent_hours + $m->booked_hours < $m->estimated_hours) {
+		if (!$m->completed && $m->spent_hours + $m->booked_hours < $m->estimated_hours) {
 			$modules[] = $m;
 		}
 	}

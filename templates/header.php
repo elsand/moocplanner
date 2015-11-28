@@ -37,7 +37,7 @@
 				<li>
 					<div class="row large-collapse">
 						<div class="large-6 columns">
-							<input type="checkbox"> <?= $m->name ?>
+							<input type="checkbox" class="mark-completed-checkbox" data-id="<?=$m->id?>"> <?= $m->name ?>
 						</div>
 						<div class="large-6 columns">
 							<div class="progress multiple inline-text" role="progressbar">

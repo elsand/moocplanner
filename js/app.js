@@ -4,6 +4,15 @@ $('body')
 	.on('click', '#js-module-settings', function(e) {
 		createPopup('edit-module-settings', 'Rediger modulinnstillinger', '?action=edit_module_settings');
 	})
+	.on('click', '.mark-completed-checkbox', function(e) {
+		if (!confirm('Er du sikker du vil merke denne modulen som fullført?')) return false;
+		var id = $(this).attr('data-id');
+		$(this).parents('.row').first().fadeOut(function() {
+			$.post('?action=complete_module', { module_id: id }, function(r) {
+				r.is_error ? onSessionSaveFail(r) : onSessionSaveSuccess();
+			}, 'json')
+		});
+	})
 	.on('click', '.js-calendar-add-session', function(e) {
 		console.log(e);
 		createPopup('edit-session new-session', 'Ny arbeidsøkt', '?action=new_session&date=' + $(e.currentTarget).attr('id').replace('date-', ''), e);
