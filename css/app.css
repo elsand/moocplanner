@@ -1,5 +1,10 @@
 #header {
 	background-color: #ddd;
+	-moz-box-shadow: 0 1px 4px 1px rgba(84,84,84,0.5);/*FF 3.5+*/
+	-webkit-box-shadow: 0 1px 4px 1px rgba(84,84,84,0.5);/*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+	box-shadow: 0 1px 4px 1px rgba(84,84,84,0.5);/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+	margin-bottom: 3px;
+	padding-bottom: 6px;
 }
 
 #course-overview .progress {
@@ -7,10 +12,26 @@
 }
 
 #active-modules {
+	font-size: 80%;
 	overflow-y: auto;
-	height: 100px;
+	overflow-x: hidden;
+	height: 72px;
 	list-style: none;
 	margin: 0;
+}
+#active-modules .row {
+	margin: 0 !important;
+}
+
+#active-modules input {
+	margin-bottom: 0 !important;
+}
+
+#active-modules .progress {
+	margin-bottom: 0;
+}
+#active-modules .progress-meter-text {
+	margin-top: -15px;
 }
 
 .progress > .progress-meter-text {
@@ -18,10 +39,21 @@
 	text-align: center;
 	margin-top: -17px;
 	font-size: 74%;
+	z-index: 999;
 }
 .progress.multiple span.progress-meter {
 	display: inline-block;
-	top: -2px;
+}
+
+.progress.inline-text {
+	position: relative;
+}
+
+.progress.inline-text .progress-meter-text {
+	position: absolute;
+	top: 1rem;
+	text-align: center;
+	width: 100%;
 }
 
 .progress-meter.spent {
@@ -34,6 +66,13 @@
 
 #calendar table {
 	width: 100%;
+	border: none;
+}
+thead, tbody, tfoot {
+	background-color: transparent;
+}
+thead {
+	border-top: none;
 }
 
 #calendar th .button {
@@ -155,23 +194,51 @@
 	height: 100px;
 	background-color: #ddd;
 	z-index: 20;
+	-moz-box-shadow: 0 -1px 4px 1px rgba(84,84,84,0.5);/*FF 3.5+*/
+	-webkit-box-shadow: 0 -1px 4px 1px rgba(84,84,84,0.5);/*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+	box-shadow: 0 -1px 4px 1px rgba(84,84,84,0.5);/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
 }
 
-.footer_module_list {
-	height: 115px;
-	overflow: auto;
-	border: 1px solid #ddd;
-	padding-left: 5px;
-}
-.footer_button_outer {
-	position: relative;
-	height: 161px;
+#notfullybooked {
+	font-size: 80%;
+	height: 86px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 3px 0 0 0 ;
 }
 
-.footer_button_inner {
-	position: absolute;
-	right: 0;
-	bottom: 0;
+#notfullybooked strong {
+	margin: 0 0 0 11px;
+}
+
+#notfullybooked tbody {
+	border: none;
+}
+
+#notfullybooked tr {
+	background-color: transparent !important;
+}
+
+#notfullybooked td  {
+	padding: 3px;
+}
+
+#notfullybooked .module-name span {
+	width: 240px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: block;
+}
+
+#notfullybooked .progress {
+	width: 100px;
+	margin: 0;
+}
+
+#notfullybooked .progress-meter-text {
+	top: 1.1rem;
 }
 
 #popup {

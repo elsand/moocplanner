@@ -18,11 +18,11 @@
 			<div class="row">
 				<div class="large-2 columns">Fremdrift:</div>
 				<div class="large-10 columns">
-					<div class="progress" role="progressbar">
+					<div class="progress inline-text" role="progressbar">
+						<span class="progress-meter-text"><?= $course_data->completed_modules_count ?> / <?= $course_data->modules_count ?> moduler fullført</span>
 						<span class="progress-meter success" style="width: <?=
 							$course_data->completed_modules_count / $course_data->modules_count * 100
 						?>%"></span>
-						<span class="progress-meter-text"><?= $course_data->completed_modules_count ?> / <?= $course_data->modules_count ?> moduler fullført</span>
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,10 @@
 							<input type="checkbox"> <?= $m->name ?>
 						</div>
 						<div class="large-6 columns">
-							<div class="progress multiple" role="progressbar">
+							<div class="progress multiple inline-text" role="progressbar">
+								<span class="progress-meter-text">
+									<?= $m->spent_hours ?> timer brukt, <?= $m->booked_hours ?> timer planlagt
+								</span>
 								<span class="progress-meter spent" style="width: <?=
 									$m->spent_hours / $m->estimated_hours * 100
 								?>%"></span><span class="progress-meter booked" style="width: <?=
