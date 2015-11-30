@@ -1,5 +1,6 @@
 $(document).foundation();
 
+setupResizables();
 // Bind all events to body, so that we can refresh all the content wihout losing handlers
 $('body')
 	// When clicking "Modulinnstillinger"
@@ -124,6 +125,7 @@ function onAjaxSaveFail(r) {
 // Reload the view via ajax, and call the supplied callback with the results
 function reloadEverything(cb) {
 	$('#main-container').load(window.location.toString(), function(r) {
+		setupResizables();
 		if (typeof cb == "function") {
 			cb(r);
 		}
@@ -181,4 +183,25 @@ function closePopup() {
 	if ($(popup_selector).length) {
 		$(popup_selector).remove();
 	}
+}
+
+function setupResizables() {
+	$('#footer').resizable({
+		handles: 'n',
+		minHeight: 54,
+		resize: function(e, ui) {
+			var h = $('#footer').height();
+			$('#notfullybooked').height(h - 12);
+			$('#calendar').css('margin-bottom', h);
+		}
+	});
+	$('#header').resizable({
+		handles: 's',
+		minHeight: 102,
+		resize: function(e, ui) {
+			var h = $('#header').height();
+			$('#active-modules').height(h - 30);
+			$('#calendar').css('margin-bottom', h);
+		}
+	});
 }

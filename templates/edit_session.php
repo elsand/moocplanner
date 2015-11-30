@@ -83,7 +83,7 @@
 
 		<div class="row large-collapse">
 			<div class="large-2 columns text-left">
-				<button type="button" class="small button secondary" id="cancel">Avbryt</button>
+				<button type="button" class="small button secondary" id="close">Avbryt</button>
 			</div>
 			<div class="large-10 columns text-right">
 				<?php if ($session->id): ?>
