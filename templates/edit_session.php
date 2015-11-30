@@ -27,7 +27,7 @@
 						}
 						?>
 					<option value="<?=$m->id?>"<?=$is_editing ? ' class="currently-selected" selected' : '' ?>>
-						<?= h($m->name) ?>
+						Modul <?=$m->index?>: <?= h($m->name) ?>
 						(<?= $unbooked_hours ?> timer ikke booket)
 						<?= $is_editing ? ' (VALGT) ' : '' ?>
 					</option>

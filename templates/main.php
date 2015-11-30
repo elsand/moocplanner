@@ -1,5 +1,9 @@
 <?php
 
+if (!empty($_GET['debug'])) {
+	var_dump($course_data);
+}
+
 // Main template, adding the calendar with header and footer
 
 ?>

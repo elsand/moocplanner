@@ -263,8 +263,11 @@ function get_module_populated_with_sessions(Module $m) {
 				$new_date = clone $s->date;
 				// Add a number of weeks. Note that this is 0, so nothing gets added the first week
 				$new_date->add(new DateInterval('P' . $week_multiplier * $s->repeat_interval_weeks . 'W'));
+
 				// Set date to monday that week
-				$new_date->add(DateInterval::createFromDateString('last monday'));
+				if ($day_of_start_date != 1)
+					$new_date->add(DateInterval::createFromDateString('last monday'));
+
 				foreach ($s->repeat_days as $day) {
 					if ($week_multiplier == 0 && $day <= $day_of_start_date) {
 						// only repeat for days past start_date the first week
