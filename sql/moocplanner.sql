@@ -7,7 +7,7 @@
 #
 # Host: debian-vm (MySQL 5.6.23-1~dotdeb.3-log)
 # Database: moocplanner
-# Generation Time: 2015-11-27 12:32:38 +0000
+# Generation Time: 2015-11-30 22:26:54 +0000
 # ************************************************************
 
 
@@ -111,21 +111,22 @@ LOCK TABLES `session` WRITE;
 
 INSERT INTO `session` (`id`, `user_id`, `module_id`, `start_date`, `hours`, `repeating`, `repeat_days`)
 VALUES
-	(1,1,1,'2015-12-01',4,1,'4'),
-	(5,1,4,'2015-10-10',5,NULL,NULL),
-	(6,1,14,'2015-12-10',5,NULL,NULL),
-	(7,1,5,'2015-12-11',5,2,'1,3'),
-	(8,1,6,'2015-12-13',5,1,'2,4'),
-	(9,1,7,'2015-12-14',4,NULL,NULL),
-	(10,1,8,'2015-12-15',4,NULL,NULL),
-	(11,1,9,'2015-12-16',4,NULL,NULL),
-	(12,1,10,'2015-12-17',4,NULL,NULL),
-	(13,1,11,'2015-12-18',4,NULL,NULL),
-	(15,1,12,'2015-12-19',4,NULL,NULL),
-	(16,1,13,'2015-12-20',4,NULL,NULL),
-	(17,1,15,'2015-12-21',4,NULL,NULL),
-	(18,1,16,'2015-12-22',4,NULL,NULL),
-	(19,1,17,'2015-12-23',4,NULL,NULL);
+	(1,1,1,'2015-11-02',4,1,'1,2,3,4,5'),
+	(2,1,4,'2015-11-11',4,1,'1,2,3,4,5'),
+	(3,1,5,'2015-11-20',4,1,'1,2,3,4,5'),
+	(5,1,6,'2015-12-02',6,2,'1,3,5'),
+	(6,1,7,'2015-12-01',6,2,'2,4'),
+	(7,1,8,'2015-12-07',4,NULL,NULL),
+	(8,1,9,'2015-12-08',6,NULL,NULL),
+	(9,1,9,'2015-12-09',4,NULL,NULL),
+	(10,1,9,'2015-12-10',5,NULL,NULL),
+	(11,1,10,'2015-12-11',2,1,'1,2,4,5'),
+	(12,1,8,'2016-01-11',5,1,'1,2,3'),
+	(13,1,11,'2016-01-04',5,1,'3,4,5'),
+	(14,1,12,'2016-02-01',5,1,'1,2,3,4,5'),
+	(15,1,13,'2016-02-08',5,1,'1,3,5'),
+	(16,1,14,'2016-02-09',5,1,'2,4'),
+	(17,1,9,'2015-11-30',3,NULL,NULL);
 
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -175,7 +176,7 @@ LOCK TABLES `user_course` WRITE;
 
 INSERT INTO `user_course` (`user_id`, `course_id`, `standard_module_hours`, `start_date`)
 VALUES
-	(1,1,NULL,'2015-10-10');
+	(1,1,25,'2015-11-01');
 
 /*!40000 ALTER TABLE `user_course` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -199,7 +200,10 @@ LOCK TABLES `user_module` WRITE;
 
 INSERT INTO `user_module` (`user_id`, `module_id`, `module_hours`, `completed`)
 VALUES
-	(1,1,20,1);
+	(1,1,NULL,1),
+	(1,4,NULL,1),
+	(1,12,20,0),
+	(1,13,30,0);
 
 /*!40000 ALTER TABLE `user_module` ENABLE KEYS */;
 UNLOCK TABLES;
