@@ -73,7 +73,8 @@ function action_edit_session() {
 
 function action_save_session() {
 
-	if (empty($_POST['module_id']) || !ctype_digit($_POST['module_id']) || !get_module_by_id($_POST['module_id'])) {
+	$module = null;
+	if (empty($_POST['module_id']) || !ctype_digit($_POST['module_id']) || !$module = get_module_by_id($_POST['module_id'])) {
 		ajax_response(true, ['Ugyldig module id']);
 	}
 
@@ -90,7 +91,11 @@ function action_save_session() {
 	}
 
 	if (empty($_POST['duration_hours']) || !ctype_digit($_POST['duration_hours']) || $_POST['duration_hours'] == 0 || $_POST['duration_hours'] > 24) {
-		ajax_response(true, ['Du må oppgi mellom 1 og 24 timers lengde på økten.']);
+		ajax_response(true, ['Du må oppgi mellom et tall for som lengde på økten, og maks 24 timer i døgnet']);
+	}
+
+	if ($_POST['duration_hours'] > $module->estimated_hours - $module->spent_hours - $module->booked_hours) {
+		ajax_response(true, ['Modulen har bare ' . ($module->estimated_hours - $module->spent_hours - $module->booked_hours) . ' timer igjen, du kan ikke oppgi mer enn det.']);
 	}
 
 	if (!empty($_POST['repeatable']) && (empty($_POST['repeat_days']) || !is_valid_days($_POST['repeat_days']))) {
