@@ -155,11 +155,38 @@ function action_reopen_module() {
 function action_edit_module_settings() {
 	$tpl = new tpl('edit_module_settings');
 	$tpl->set('modules', get_modules_for_user(LOADED_COURSE_ID));
-	$tpl->set('standard_module_hours', get_user_standard_module_hours(LOADED_COURSE_ID));
+	$tpl->set('course_standard_module_hours', get_course_standard_module_hours(LOADED_COURSE_ID));
+	$tpl->set('user_standard_module_hours', get_user_standard_module_hours(LOADED_COURSE_ID));
 	echo $tpl->render();
 }
 
 function action_save_module_settings() {
+
+	if (isset($_POST['user_standard_module_hours'])) {
+		if (!ctype_digit($_POST['user_standard_module_hours']) || $_POST['user_standard_module_hours'] == 0) {
+			save_standard_module_hours(LOADED_COURSE_ID, null);
+		}
+		else {
+			save_standard_module_hours(LOADED_COURSE_ID, $_POST['user_standard_module_hours']);
+		}
+	}
+
+	foreach ($_POST as $key => $value) {
+		if (preg_match('/^module-(\d+)$/', $key, $m)) {
+			$module_id = $m[1];
+			if (!get_module_by_id($module_id)) {
+				ajax_response(true, 'Invalid module id');
+			}
+			if (!ctype_digit($value) || $value == null) {
+				save_module_hours($module_id, null);
+			}
+			else {
+				save_module_hours($module_id, $value);
+			}
+		}
+	}
+
+	ajax_response();
 
 }
 /*

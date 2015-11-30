@@ -329,3 +329,8 @@ thead {
 	width: 600px;
 	height: 750px;
 }
+
+#edit_module_settings .overridden, #edit_module_settings .orig-overridden {
+	font-weight: bold;
+	background-color: #fffebe;
+}

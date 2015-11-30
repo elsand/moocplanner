@@ -28,7 +28,10 @@
 		<?php else: ?>
 		<div class="large-5 columns"></div>
 		<?php endif ?>
-		<div class="large-4 columns text-right">
+		<div class="large-5 columns">
+			<div id="flash-container"></div>
+		</div>
+		<div class="large-2 columns text-right">
 			<button class="button secondary" id="js-module-settings">Modulinnstillinger</button>
 		</div>
 	</div>

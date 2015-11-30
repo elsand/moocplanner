@@ -180,7 +180,7 @@ function get_modules_for_user($course_id) {
 		}
 		// 2. Check if the user has an override for all modules this course
 		else if ($r['user_standard_module_hours']) {
-			$m->is_estimate_overridden = true;
+			$m->is_estimate_overridden = false;
 			$m->estimated_hours = $r['user_standard_module_hours'];
 		}
 		// 3. Check if the module itself has a specfied amount of hours
@@ -313,6 +313,31 @@ function get_user_standard_module_hours($course_id) {
 		throw new RuntimeException('Invalid course id');
 	}
 	return $sth->fetchColumn();
+}
+
+function get_course_standard_module_hours($course_id) {
+	$db = get_database_connection();
+	$sth = $db->prepare('SELECT standard_module_hours FROM course WHERE id = ?');
+	if (!$sth->execute([$course_id])) {
+		throw new RuntimeException('Invalid course id');
+	}
+	return $sth->fetchColumn();
+}
+
+function save_standard_module_hours($course_id, $hours) {
+	$db = get_database_connection();
+	$sth = $db->prepare('UPDATE user_course SET standard_module_hours = ? WHERE course_id = ? AND user_id = ?');
+	$sth->execute([$hours, $course_id, CURRENT_USER_ID]);
+}
+
+function save_module_hours($module_id, $hours) {
+	$db = get_database_connection();
+	$sth = $db->prepare('UPDATE user_module SET module_hours = ? WHERE module_id = ? AND user_id = ?');
+	$sth->execute([$hours, $module_id, CURRENT_USER_ID]);
+	if (!$sth->rowCount()) {
+		$sth = $db->prepare('INSERT INTO user_module SET module_hours = ?, module_id = ?, user_id = ?');
+		$sth->execute([$hours, $module_id, CURRENT_USER_ID]);
+	}
 }
 
 function get_module_by_id($module_id) {

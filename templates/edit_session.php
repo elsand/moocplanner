@@ -5,7 +5,7 @@
 ?>
 
 <div id="edit_session" class="<?= $session->id ? 'edit' : 'new'?>">
-	<form action="?action=save_session" method="post" data-ajax="true" data-ajax-onsubmit-success="onSessionSaveSuccess" data-ajax-onsubmit-fail="onSessionSaveFail">
+	<form action="?action=save_session" method="post" data-ajax="true" data-ajax-onsubmit-success="onAjaxSaveSuccess" data-ajax-onsubmit-fail="onAjaxSaveFail">
 		<input type="hidden" name="session_id" value="<?=$session->id?>">
 		<input type="hidden" name="date" value="<?=$date->format('Y-m-d')?>">
 		<div class="row large-collapse">
