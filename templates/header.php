@@ -1,6 +1,10 @@
 <?php
-/** @var CourseEnrollment $course_data */
-/** @var Module[] $active_modules */
+/**
+ * Header template
+ *
+ * @var CourseEnrollment $course_data
+ * @var Module[] $active_modules
+ */
 
 ?>
 <div id="header">

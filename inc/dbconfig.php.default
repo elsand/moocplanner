@@ -1,11 +1,10 @@
 <?php
 
-// Kopier denne fila til dbconfig.php og tilpass verdiene under
-// Merk at dbconfig.php _ikke_ skal i Git (se .gitignore)
+/**
+This file must be copied to "dbconfig.php". Adjust values below to fit own environment.
+*/
 
 define('DB_HOST', 'localhost');
 define('DB_DATABASE', 'moocplanner');
 define('DB_USER', 'root');
 define('DB_PASSWORD', 'root');
-
-?>

@@ -1,5 +1,7 @@
 <?php
 
+/** Datatype for the users course enrollment. Contains array of all modules for the user. */
+
 class CourseEnrollment {
 	/** @var int Database ID */
 	public $id;

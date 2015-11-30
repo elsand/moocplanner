@@ -43,6 +43,8 @@
 			<tbody>
 				<?php
 
+				// Render the calendard view
+
 				$days_per_row = 8; // dayboxes per row (including week num)
 				$days_per_column = 6; // dayboxes per column. Some months span 6 week distinct weeks
 
@@ -70,7 +72,8 @@
 								$class .= " is-today";
 							}
 							echo '<td class="' . $class . '">';
-							echo '<span class="date"><a title="Klikk for å legge til økt på denne dagen" class="js-calendar-add-session" id="date-' . $ymd . '" href="javascript:">' . $date . '</a></span>';
+							echo '<span class="date"><a title="Klikk for å legge til økt på denne dagen" class="js-calendar-add-session" data-date="' . $ymd . '" id="date-' . $ymd . '" href="javascript:">' . $date . '</a></span>';
+							echo '<button class="tiny button js-calendar-add-session" data-date="' . $ymd . '"><i class="fi-plus"></i></button>';
 
 							display_entries_for_date($date, $entries);
 
@@ -100,6 +103,12 @@
 
 <?php
 
+/**
+ * Loops the supplied entries from server side for this date, and called render_calendar_entry() for each
+ *
+ * @param $date
+ * @param $entries
+ */
 function display_entries_for_date($date, $entries) {
 	if (empty($entries[$date])) return;
 	foreach ($entries[$date] as $session) {
@@ -108,6 +117,11 @@ function display_entries_for_date($date, $entries) {
 	}
 }
 
+/**
+ * Renders a "box" representing the session in the calendar, using a semi-unique color (derived from name) and a progressbar.
+ *
+ * @param Session $session
+ */
 function render_calendar_entry(Session $session) {
 	$perc_complete = round(($session->module->spent_hours + $session->module->booked_hours) / $session->module->estimated_hours * 100);
 ?>
@@ -124,11 +138,29 @@ function render_calendar_entry(Session $session) {
 <?php
 }
 
+/**
+ * Generates links for navigating the calendar. Use either 1 or -1 for next or prev-links.
+ *
+ * @param $month
+ * @param $year
+ * @param $add
+ *
+ * @return string
+ */
 function get_month_link($month, $year, $add) {
 	return '?showmonth=' . date('Y-m', mktime(10, 0, 0, $month + $add, 15, $year));
 }
 
-
+/**
+ * Generates a somewhat unique color based on the name of the module, using md5() to make it
+ * likely that it does not closely match any other module.
+ *
+ * Checks luminance on the generated color, and changes to white text if too dark.
+ *
+ * @param Module $module
+ *
+ * @return string
+ */
 function generate_style_from_module(Module $module) {
 
 	$ret = 'background-color: #%s; color: #%s';

@@ -1,7 +1,11 @@
 <?php
-/** @var Module[] $modules */
-/** @var $course_standard_module_hours */
-/** @var $user_standard_module_hours */
+/**
+ * Form for editing hour estimates for each module in the current course
+ *
+ * @var Module[] $modules
+ * @var $course_standard_module_hours
+ * @var $user_standard_module_hours
+ */
 ?>
 
 <div id="edit_module_settings">

@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * All database related operations are in this file.
+ */
+
+/**
  * Wrapper for PDO constructor. Sets up a UTF-8 enabled connection, enables exceptions on error,
  * and forcefully disables emulated prepares
  *
@@ -143,6 +147,8 @@ function get_not_fully_booked_modules($course_id) {
 }
 
 /**
+ * Gets all the modules for the currently logged in user on the supplied course id.
+ *
  * @param $course_id
  *
  * @return Module[]
@@ -206,6 +212,9 @@ function get_modules_for_user($course_id) {
 }
 
 /**
+ * Receives a Module instance, and populates it with sessions based on what exists in the datbase.
+ * Repeated sessions run until estimated_hours is met.
+ *
  * @param Module $m
  *
  * @throws RuntimeException
@@ -306,6 +315,15 @@ function get_module_populated_with_sessions(Module $m) {
 	return $m;
 }
 
+/**
+ * Returns the standard module hours for the user on the supplied course, overriding the course itself. May be NULL
+ * if the user has not supplied any, in which case get_course_standard_module_hours() should be used.
+ *
+ * @param $course_id
+ *
+ * @return string
+ * @throws RuntimeException
+ */
 function get_user_standard_module_hours($course_id) {
 	$db = get_database_connection();
 	$sth = $db->prepare('SELECT standard_module_hours FROM user_course WHERE user_id = ? AND course_id = ?');
@@ -315,6 +333,15 @@ function get_user_standard_module_hours($course_id) {
 	return $sth->fetchColumn();
 }
 
+/**
+ * Returns the standard module hours for the course. This is the default for all courses, unless the user has
+ * overridden it, either for all or individual modules
+ *
+ * @param $course_id
+ *
+ * @return string
+ * @throws RuntimeException
+ */
 function get_course_standard_module_hours($course_id) {
 	$db = get_database_connection();
 	$sth = $db->prepare('SELECT standard_module_hours FROM course WHERE id = ?');
@@ -324,22 +351,44 @@ function get_course_standard_module_hours($course_id) {
 	return $sth->fetchColumn();
 }
 
+/**
+ * Saves the standard module hours for the user, overriding that set on the course itself. $hours may be NULL,
+ * which means course standard module hours applies.
+ *
+ * @param $course_id
+ * @param $hours
+ */
 function save_standard_module_hours($course_id, $hours) {
 	$db = get_database_connection();
 	$sth = $db->prepare('UPDATE user_course SET standard_module_hours = ? WHERE course_id = ? AND user_id = ?');
 	$sth->execute([$hours, $course_id, CURRENT_USER_ID]);
 }
 
+/**
+ * Saves an estimate for work required for a single module, overriding both standard module hours for both the user
+ * and the course. May be NULL to clear the overriden the estimate.
+ *
+ * @param $module_id
+ * @param $hours
+ */
 function save_module_hours($module_id, $hours) {
 	$db = get_database_connection();
 	$sth = $db->prepare('UPDATE user_module SET module_hours = ? WHERE module_id = ? AND user_id = ?');
 	$sth->execute([$hours, $module_id, CURRENT_USER_ID]);
+	// The row may not exist, so INSERT if we get no affected rows
 	if (!$sth->rowCount()) {
 		$sth = $db->prepare('INSERT INTO user_module SET module_hours = ?, module_id = ?, user_id = ?');
 		$sth->execute([$hours, $module_id, CURRENT_USER_ID]);
 	}
 }
 
+/**
+ * Returns the module having the supplied id. Must be a module that the user is taking in the currently loaded course.
+ *
+ * @param $module_id
+ *
+ * @return bool|Module
+ */
 function get_module_by_id($module_id) {
 	$modules = get_modules_for_user(LOADED_COURSE_ID);
 		foreach ($modules as $m) {
@@ -350,6 +399,13 @@ function get_module_by_id($module_id) {
 	return false;
 }
 
+/**
+ * Returns the sessions having the supplied id. Must be a session associated witha module that the user is taking in the currently loaded course.
+ *
+ * @param $session_id
+ *
+ * @return bool|Module
+ */
 function get_session_by_id($session_id) {
 	$modules = get_modules_for_user(LOADED_COURSE_ID);
 	$date = null;
@@ -364,6 +420,11 @@ function get_session_by_id($session_id) {
 	return false;
 }
 
+/**
+ * Takes a validated form post for a sessions and saves it to the database, either via UPDATE or INSERT
+ *
+ * @param $post
+ */
 function save_session_to_database($post) {
 	$fields =
 	[
@@ -391,11 +452,24 @@ function save_session_to_database($post) {
 
 }
 
+/**
+ * Deletes the supplied session from the database. Must be validated.
+ *
+ * @param $session_id
+ */
 function delete_session_from_database($session_id) {
 	$db = get_database_connection();
 	$sth = $db->prepare('DELETE FROM session WHERE id = ? AND user_id = ?');
 	$sth->execute([$session_id, CURRENT_USER_ID]);
 }
+
+/**
+ * Sets the supplied module_id completed/open based on $flag.
+ * Must be validated.
+ *
+ * @param $module_id
+ * @param $flag
+ */
 
 function set_completed_flag_on_module($module_id, $flag) {
 	$db = get_database_connection();

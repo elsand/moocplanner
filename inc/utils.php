@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Utility functions
+ *
+ * @param $error_message
+ */
+
 function display_error($error_message) {
 	$tpl = new tpl('error');
 	$tpl->set('error_message', $error_message);

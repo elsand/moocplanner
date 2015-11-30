@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Simple templating engine
+ */
 class tpl {
 
 	private $template_path;

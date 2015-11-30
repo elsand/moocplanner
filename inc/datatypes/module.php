@@ -1,5 +1,7 @@
 <?php
 
+/** Datatype representing the users relation to a module. Contains a list of work sessions (past and present) assosciated with this module */
+
 class Module {
 	/** @var int Database ID */
 	public $id;

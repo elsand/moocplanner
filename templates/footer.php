@@ -1,6 +1,10 @@
 <?php
-/** @var Module[] $not_fully_booked */
-// Comments
+/**
+ * Footer template
+ *
+ * @var Module[] $not_fully_booked
+ */
+
 ?>
 <div id="footer">
 	<div class="row collapse">

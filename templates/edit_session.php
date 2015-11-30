@@ -1,7 +1,11 @@
 <?php
-/** @var Session $session */
-/** @var Module[] $modules */
-/** @var DateTime $date */
+/**
+ * Form for editing/creating sessions for the supplied date. $session is empty if new.
+ *
+ * @var Session $session
+ * @var Module[] $modules
+ * @var DateTime $date
+ */
 ?>
 
 <div id="edit_session" class="<?= $session->id ? 'edit' : 'new'?>">

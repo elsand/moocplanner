@@ -1,5 +1,8 @@
 <?php
 
+/** Datatype representing av work session. A session may be set to repeat itself on a (multiple) weekly basis, on one or several week days. The sessions will repeat
+ * until the modules estimated workload (in hours) is met */
+
 class Session {
 	/** @var int Database ID */
 	public $id;
@@ -31,4 +34,3 @@ class Session {
 	/** @var bool If this session is invalid, eg. because the module is already completed */
 	public $is_invalid;
 }
-?>
