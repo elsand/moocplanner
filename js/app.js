@@ -148,6 +148,8 @@ function createPopup(css_class, title, url, click_event) {
 	$.get(url, function(r) {
 		$popup.find('.content').html(r);
 	});
+
+	$popup.draggable();
 }
 
 function closePopup() {
